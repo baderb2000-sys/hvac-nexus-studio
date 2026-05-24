@@ -1,0 +1,422 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#030712;
+    color:white;
+    overflow:hidden;
+}
+
+/* =========================================
+BACKGROUND
+========================================= */
+
+body::before{
+    content:'';
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:
+    radial-gradient(circle at top left,#06b6d433,transparent 25%),
+    radial-gradient(circle at bottom right,#2563eb33,transparent 30%),
+    linear-gradient(135deg,#020617,#0f172a,#111827);
+    z-index:-2;
+}
+
+body::after{
+    content:'';
+    position:fixed;
+    width:200%;
+    height:200%;
+    background:
+    repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 60px,
+        rgba(255,255,255,0.02) 60px,
+        rgba(255,255,255,0.02) 120px
+    );
+    animation:gridMove 25s linear infinite;
+    z-index:-1;
+}
+
+@keyframes gridMove{
+    from{transform:translate(0,0);}
+    to{transform:translate(-200px,-200px);}
+}
+
+/* =========================================
+APP LAYOUT
+========================================= */
+
+.app-shell{
+    display:flex;
+    height:100vh;
+}
+
+/* =========================================
+SIDEBAR
+========================================= */
+
+.sidebar{
+    width:320px;
+    background:rgba(15,23,42,0.72);
+    backdrop-filter:blur(30px);
+    border-right:1px solid rgba(255,255,255,0.08);
+    display:flex;
+    flex-direction:column;
+    padding:30px;
+    overflow-y:auto;
+}
+
+.logo-box{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:40px;
+}
+
+.logo-icon{
+    width:72px;
+    height:72px;
+    border-radius:24px;
+    background:linear-gradient(135deg,#06b6d4,#2563eb);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-weight:900;
+    box-shadow:0 0 35px rgba(6,182,212,0.5);
+    animation:float 4s ease-in-out infinite;
+}
+
+.logo-box h1{
+    font-size:24px;
+    font-weight:800;
+}
+
+.logo-box p{
+    color:#94a3b8;
+    margin-top:4px;
+    font-size:14px;
+}
+
+@keyframes float{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+    100%{transform:translateY(0);}
+}
+
+/* =========================================
+NAVIGATION
+========================================= */
+
+.nav-menu{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.nav-btn{
+    width:100%;
+    background:rgba(255,255,255,0.04);
+    border:none;
+    border-radius:18px;
+    color:white;
+    padding:18px;
+    text-align:left;
+    cursor:pointer;
+    transition:0.35s;
+    font-size:15px;
+    font-weight:600;
+    border:1px solid transparent;
+}
+
+.nav-btn:hover{
+    background:rgba(6,182,212,0.14);
+    border-color:#06b6d4;
+    transform:translateX(6px);
+    box-shadow:0 0 25px rgba(6,182,212,0.25);
+}
+
+.nav-btn.active{
+    background:linear-gradient(135deg,#06b6d4,#2563eb);
+    box-shadow:0 0 35px rgba(6,182,212,0.45);
+}
+
+/* =========================================
+MAIN CONTENT
+========================================= */
+
+.main-content{
+    flex:1;
+    overflow-y:auto;
+    padding:35px;
+}
+
+/* =========================================
+HEADER
+========================================= */
+
+.hero{
+    margin-bottom:30px;
+}
+
+.hero small{
+    color:#38bdf8;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.hero h2{
+    font-size:48px;
+    margin-top:10px;
+    font-weight:900;
+}
+
+.hero p{
+    color:#94a3b8;
+    margin-top:12px;
+    font-size:17px;
+}
+
+/* =========================================
+KPI CARDS
+========================================= */
+
+.kpi-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:22px;
+    margin-bottom:35px;
+}
+
+.kpi-card{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    backdrop-filter:blur(20px);
+    border-radius:28px;
+    padding:28px;
+    box-shadow:0 15px 45px rgba(0,0,0,0.35);
+    transition:0.35s;
+}
+
+.kpi-card:hover{
+    transform:translateY(-6px);
+}
+
+.kpi-card h3{
+    color:#94a3b8;
+    margin-bottom:14px;
+    font-size:15px;
+}
+
+.kpi-card span{
+    font-size:38px;
+    font-weight:800;
+    color:#38bdf8;
+}
+
+/* =========================================
+PANELS
+========================================= */
+
+.panel{
+    background:rgba(255,255,255,0.05);
+    border-radius:32px;
+    padding:35px;
+    margin-bottom:28px;
+    border:1px solid rgba(255,255,255,0.08);
+    backdrop-filter:blur(25px);
+    box-shadow:0 20px 55px rgba(0,0,0,0.35);
+    animation:fadeUp 0.7s ease;
+}
+
+.panel h2{
+    font-size:30px;
+    margin-bottom:20px;
+}
+
+.panel h3{
+    margin-top:25px;
+    margin-bottom:14px;
+    color:#38bdf8;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================================
+INPUTS
+========================================= */
+
+.input-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    color:#cbd5e1;
+}
+
+input,
+select{
+    width:100%;
+    padding:16px;
+    border-radius:18px;
+    border:none;
+    background:rgba(255,255,255,0.06);
+    color:white;
+    outline:none;
+    border:1px solid rgba(255,255,255,0.08);
+    transition:0.3s;
+}
+
+input:focus,
+select:focus{
+    border-color:#38bdf8;
+    box-shadow:0 0 25px rgba(56,189,248,0.25);
+}
+
+/* =========================================
+BUTTONS
+========================================= */
+
+.primary-btn{
+    background:linear-gradient(135deg,#06b6d4,#2563eb);
+    color:white;
+    border:none;
+    border-radius:18px;
+    padding:18px 28px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.35s;
+    margin-top:25px;
+}
+
+.primary-btn:hover{
+    transform:translateY(-4px);
+    box-shadow:0 0 40px rgba(6,182,212,0.45);
+}
+
+/* =========================================
+TABLES
+========================================= */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th{
+    background:rgba(6,182,212,0.18);
+    padding:16px;
+    text-align:left;
+}
+
+td{
+    padding:16px;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+/* =========================================
+CHART PLACEHOLDERS
+========================================= */
+
+.chart-box{
+    height:420px;
+    border-radius:28px;
+    background:
+    radial-gradient(circle,#06b6d422,transparent),
+    #020617;
+    border:1px solid rgba(255,255,255,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:26px;
+    color:#38bdf8;
+    box-shadow:inset 0 0 60px rgba(6,182,212,0.2);
+}
+
+/* =========================================
+SPLASH SCREEN
+========================================= */
+
+#splash{
+    position:fixed;
+    inset:0;
+    background:#020617;
+    z-index:99999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    animation:fadeOut 1s ease 2.5s forwards;
+}
+
+.turbine{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    border:10px solid rgba(255,255,255,0.08);
+    border-top:10px solid #38bdf8;
+    animation:spin 1.2s linear infinite;
+    margin-bottom:30px;
+}
+
+#splash h1{
+    font-size:42px;
+    font-weight:900;
+}
+
+#splash p{
+    color:#94a3b8;
+    margin-top:10px;
+}
+
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+@keyframes fadeOut{
+    to{
+        opacity:0;
+        visibility:hidden;
+    }
+}
+
+/* =========================================
+PRESENTATION MODE
+========================================= */
+
+.presentation-mode .panel{
+    transform:scale(1.02);
+}
+
+.presentation-mode .hero h2{
+    font-size:58px;
+}
+
+.presentation-mode .kpi-card span{
+    font-size:52px;
+}
