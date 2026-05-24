@@ -1,0 +1,364 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#050816;
+    overflow-x:hidden;
+    color:white;
+}
+
+/* ============================================
+BACKGROUND
+============================================ */
+
+body::before{
+    content:'';
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:
+    radial-gradient(circle at top left,#0ea5e933,transparent 35%),
+    radial-gradient(circle at bottom right,#2563eb33,transparent 35%),
+    linear-gradient(135deg,#020617,#0f172a,#111827);
+    z-index:-2;
+}
+
+body::after{
+    content:'';
+    position:fixed;
+    width:200%;
+    height:200%;
+    background:
+    repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 40px,
+        rgba(255,255,255,0.015) 40px,
+        rgba(255,255,255,0.015) 80px
+    );
+    animation: movebg 30s linear infinite;
+    z-index:-1;
+}
+
+@keyframes movebg{
+    from{transform:translate(0,0);}
+    to{transform:translate(-200px,-200px);}
+}
+
+/* ============================================
+LAYOUT
+============================================ */
+
+.shell{
+    display:flex;
+    min-height:100vh;
+}
+
+/* ============================================
+SIDEBAR
+============================================ */
+
+.sidebar{
+    width:320px;
+    background:rgba(15,23,42,0.72);
+    backdrop-filter:blur(25px);
+    border-right:1px solid rgba(255,255,255,0.08);
+    padding:30px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:40px;
+}
+
+.mark{
+    width:70px;
+    height:70px;
+    border-radius:20px;
+    background:linear-gradient(135deg,#0ea5e9,#2563eb);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-weight:900;
+    box-shadow:0 0 30px rgba(14,165,233,0.5);
+    animation:floating 4s ease-in-out infinite;
+}
+
+.brand h1{
+    font-size:24px;
+    font-weight:800;
+}
+
+.brand p{
+    color:#94a3b8;
+    margin-top:4px;
+}
+
+/* ============================================
+TABS
+============================================ */
+
+.tabs{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.tabs button{
+    background:rgba(255,255,255,0.04);
+    border:none;
+    color:white;
+    padding:18px;
+    border-radius:18px;
+    text-align:left;
+    font-size:15px;
+    cursor:pointer;
+    transition:0.35s;
+    border:1px solid transparent;
+}
+
+.tabs button:hover{
+    transform:translateX(8px);
+    background:rgba(14,165,233,0.12);
+    border-color:#0ea5e9;
+    box-shadow:0 0 25px rgba(14,165,233,0.25);
+}
+
+.tabs button.active{
+    background:linear-gradient(135deg,#0ea5e9,#2563eb);
+    box-shadow:0 0 35px rgba(14,165,233,0.45);
+}
+
+/* ============================================
+TOPBAR
+============================================ */
+
+.workspace{
+    flex:1;
+    padding:35px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+.eyebrow{
+    color:#38bdf8;
+    font-size:14px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+#screenTitle{
+    font-size:40px;
+    font-weight:800;
+    margin-top:10px;
+}
+
+/* ============================================
+KPI CARDS
+============================================ */
+
+.kpi-strip{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.kpi{
+    min-width:170px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    backdrop-filter:blur(20px);
+    border-radius:24px;
+    padding:20px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.35);
+    transition:0.35s;
+}
+
+.kpi:hover{
+    transform:translateY(-5px);
+}
+
+.kpi h3{
+    color:#94a3b8;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.kpi span{
+    font-size:32px;
+    font-weight:800;
+    color:#38bdf8;
+}
+
+/* ============================================
+PANELS
+============================================ */
+
+.panel-host{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:25px;
+}
+
+.panel{
+    background:rgba(255,255,255,0.05);
+    border-radius:30px;
+    padding:30px;
+    backdrop-filter:blur(25px);
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 15px 45px rgba(0,0,0,0.35);
+    animation:fadeUp 0.7s ease;
+}
+
+.panel h2{
+    margin-bottom:20px;
+    font-size:28px;
+}
+
+.panel h3{
+    margin-top:25px;
+    margin-bottom:15px;
+    color:#38bdf8;
+}
+
+/* ============================================
+INPUTS
+============================================ */
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:16px;
+    background:rgba(255,255,255,0.06);
+    color:white;
+    margin-top:8px;
+    margin-bottom:18px;
+    outline:none;
+    border:1px solid rgba(255,255,255,0.06);
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#38bdf8;
+    box-shadow:0 0 20px rgba(56,189,248,0.3);
+}
+
+/* ============================================
+BUTTONS
+============================================ */
+
+button{
+    background:linear-gradient(135deg,#0ea5e9,#2563eb);
+    color:white;
+    border:none;
+    border-radius:18px;
+    padding:16px 26px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.35s;
+}
+
+button:hover{
+    transform:translateY(-3px) scale(1.02);
+    box-shadow:0 0 35px rgba(14,165,233,0.45);
+}
+
+/* ============================================
+TABLES
+============================================ */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th{
+    background:rgba(14,165,233,0.18);
+    padding:14px;
+    text-align:left;
+}
+
+td{
+    padding:14px;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+/* ============================================
+STATUS
+============================================ */
+
+.pass{
+    color:#22c55e;
+    font-weight:700;
+}
+
+.fail{
+    color:#ef4444;
+    font-weight:700;
+}
+
+.warning{
+    color:#facc15;
+    font-weight:700;
+}
+
+/* ============================================
+ANIMATIONS
+============================================ */
+
+@keyframes floating{
+    0%{transform:translateY(0px);}
+    50%{transform:translateY(-10px);}
+    100%{transform:translateY(0px);}
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ============================================
+SCROLLBAR
+============================================ */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#0ea5e9;
+    border-radius:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#0f172a;
+}
