@@ -15,7 +15,6 @@ Integrated HVAC design software for the AREN 351 final take-home design project.
 - ASHRAE 55 style PMV/PPD thermal comfort evaluation.
 - Psychrometric comfort chart bonus feature.
 - Transient indoor CO2 model with hourly output, steady-state time, and ventilation adjustment.
-- Validation workspace for DesignBuilder comparison.
 - Results report tab for presentation and technical report drafting.
 
 ## Run in Visual Studio Code
@@ -65,7 +64,7 @@ Core equations used:
 
 The city weather values are preloaded engineering design assumptions. If the instructor gives exact ASHRAE climatic design values, enter them in the Weather tab as custom DB/WB/pressure values.
 
-The Validation tab is ready for DesignBuilder outputs. Enter the DesignBuilder heat-gain values and paste hourly CO2 values to calculate error, RMSE, and CV(RMSE).
+The interface is configured for direct project presentation without an external-software review screen.
 
 ## Quick test
 

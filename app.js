@@ -13,7 +13,6 @@
     ["diffuser", "Diffuser Selection", "DS"],
     ["comfort", "Thermal Comfort", "TC"],
     ["co2", "Indoor Air Quality", "IA"],
-    ["validation", "Validation", "VD"],
     ["report", "Results Report", "RP"],
   ];
 
@@ -173,7 +172,6 @@
       diffuser: renderDiffuser,
       comfort: renderComfort,
       co2: renderCO2,
-      validation: renderValidation,
       report: renderReport,
     };
     app.innerHTML = renderers[activeTab]();
@@ -183,17 +181,7 @@
   function renderProject() {
     const g = E.calculateGeometry(state);
     return `
-      <div class="grid sidebar-layout">
-        <section class="section">
-          <h3>Project Identity</h3>
-          <div class="form-grid">
-            ${control("Project name", "project.name", { type: "text" })}
-            ${control("Engineer", "project.engineer", { type: "text" })}
-          </div>
-          ${control("Project notes", "project.notes", { type: "textarea" })}
-          <h4>Operating Schedule</h4>
-          ${control("Schedule", "internal.schedule", { type: "text" })}
-        </section>
+      <div class="grid">
         <section class="section">
           <h3>Building Geometry</h3>
           <div class="form-grid">
@@ -611,51 +599,6 @@
     `;
   }
 
-  function renderValidation() {
-    if (!state.validation) state.validation = {};
-    if (!state.validation.heatReference) state.validation.heatReference = {};
-    const cities = ["Riyadh", "Jeddah", "Dammam"];
-    const heatRows = cities.map((city) => {
-      const s = clone(state);
-      s.weather.city = city;
-      s.weather.custom = null;
-      const softwareKw = E.calculateHeatGains(s).total / 1000;
-      const ref = state.validation.heatReference[city];
-      const err = ref ? (softwareKw - Number(ref)) / Number(ref) * 100 : null;
-      return [
-        esc(`${city} design day`),
-        `${fmt(softwareKw, 2)} kW`,
-        `<input class="mono" data-validation-city="${esc(city)}" type="number" step="0.01" value="${esc(ref || "")}" placeholder="DesignBuilder kW">`,
-        err == null ? "pending" : `${fmt(err, 1)}%`,
-      ];
-    });
-    const refSeries = parseNumberSeries(state.validation.co2Reference || "");
-    const softwareSeries = E.simulateCO2(state).hourly.map((x) => x.ppm);
-    const metrics = E.validationMetrics(softwareSeries.slice(0, refSeries.length), refSeries);
-    return `
-      <div class="grid sidebar-layout">
-        <section class="section">
-          <h3>Heat Gains Validation</h3>
-          <p>Enter the DesignBuilder total heat gain for each scenario. The software side is calculated using the same current building inputs with city weather changed.</p>
-          ${table(["Scenario", "Software", "DesignBuilder", "Error"], heatRows)}
-        </section>
-        <section class="section">
-          <h3>CO2 Validation Metrics</h3>
-          <div class="metric-grid">
-            ${metric("Samples", fmt(metrics.n || 0, 0), "teal")}
-            ${metric("RMSE", Number.isFinite(metrics.rmse) ? `${fmt(metrics.rmse, 1)} ppm` : "pending", "blue")}
-            ${metric("CV(RMSE)", Number.isFinite(metrics.cvRmse) ? `${fmt(metrics.cvRmse, 1)}%` : "pending", "amber")}
-          </div>
-          ${control("Paste DesignBuilder hourly CO2 values", "validation.co2Reference", { type: "textarea", hint: "Use comma, spaces, or one value per line. It will be compared against this app's hourly CO2 output." })}
-        </section>
-      </div>
-      <section class="section" style="margin-top:14px">
-        <h3>Validation Plot</h3>
-        <canvas id="validationChart" class="chart" aria-label="Validation comparison chart"></canvas>
-      </section>
-    `;
-  }
-
   function renderReport() {
     const report = buildReport();
     return `
@@ -748,7 +691,6 @@
     if (activeTab === "weather") drawEpwChart();
     if (activeTab === "comfort") drawPsychChart();
     if (activeTab === "co2") drawCO2Chart();
-    if (activeTab === "validation") drawValidationChart();
   }
 
   function setupCanvas(id) {
@@ -870,14 +812,6 @@
     ], { xLabel: "time (h)", yLabel: "ppm", yMin: Math.min(state.co2.outdoorPpm, state.co2.initialPpm) - 50 });
   }
 
-  function drawValidationChart() {
-    const ref = parseNumberSeries(state.validation && state.validation.co2Reference);
-    const sw = E.simulateCO2(state).hourly.map((x) => x.ppm).slice(0, ref.length || undefined);
-    const series = [{ name: "Software", color: "#007f79", points: sw.map((y, x) => ({ x, y })) }];
-    if (ref.length) series.push({ name: "DesignBuilder", color: "#c75043", points: ref.map((y, x) => ({ x, y })) });
-    drawLineChart("validationChart", series, { xLabel: "hour", yLabel: "ppm" });
-  }
-
   function drawEpwChart() {
     if (!state.epwSummary) return;
     drawLineChart("epwChart", [
@@ -978,15 +912,6 @@
   });
 
   document.addEventListener("change", async (event) => {
-    const valInput = event.target.closest("[data-validation-city]");
-    if (valInput) {
-      if (!state.validation) state.validation = {};
-      if (!state.validation.heatReference) state.validation.heatReference = {};
-      state.validation.heatReference[valInput.dataset.validationCity] = valInput.value ? Number(valInput.value) : "";
-      saveState();
-      render();
-      return;
-    }
     if (event.target.id === "epwFile" && event.target.files && event.target.files[0]) {
       const text = await event.target.files[0].text();
       try {
